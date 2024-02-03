@@ -5,17 +5,17 @@ class nft {
     this.table = "nftt";
   }
 
-  nftMint(
+  nftMint({
     title,
     image,
     description,
     ownerWalletAddress,
-    creatorWalletAddress,
     token,
-    transectionHash
-  ) {
+    transectionHash,
+  }) {
     return db.execute(
-      `INSERT INTO ${this.table} SET title="${title}" , description="${description}" , ownerWalletAddress="${ownerWalletAddress}" , creatorWalletAddress="${creatorWalletAddress}",token="${token}", transectionHash="${transectionHash}"`
+      `INSERT INTO ${this.table} SET title="${title}" , description="${description}" , ownerWalletAddress="${ownerWalletAddress}" , creatorWalletAddress="${ownerWalletAddress}",token="${token}", transectionHash="${transectionHash}", image="${image}"`
     );
   }
 }
+module.exports = nft;
