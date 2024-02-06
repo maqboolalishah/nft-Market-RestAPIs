@@ -31,5 +31,14 @@ class nft {
       heighestBid=${heighestBid}`
     );
   }
+  addOnFixedPrice({ tokenId, owner, price, transectionHash }) {
+    return db.execute(
+      `INSERT INTO fixedPrice SET 
+      tokenId='${tokenId}', 
+      owner='${owner}', 
+      price=${price}, 
+      transectionHash='${transectionHash}'`
+    );
+  }
 }
 module.exports = nft;

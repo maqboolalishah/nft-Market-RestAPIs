@@ -36,4 +36,19 @@ module.exports.addAuction = async (req, res, next) => {
   }
 };
 
+module.exports.addOnFixedPrice = async (req, res, next) => {
+  const payload = req.body;
+
+  try {
+    const { error, value } = fixedPriceValidation.validate(payload);
+
+    if (error) return res.status(400).json({ error: error.details[0].message });
+
+    await nft.addOnFixedPrice(value);
+    return res.status(200).json({ message: `Added on Auction` });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 auctionValidation;

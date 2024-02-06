@@ -16,3 +16,9 @@ module.exports.auctionValidation = Joi.object({
   endTime: Joi.string().required(),
   heighestBidder: Joi.string().required(),
 });
+module.exports.fixedPriceValidation = Joi.object({
+  tokenId: Joi.string().required(),
+  price: Joi.number().required(),
+  owner: Joi.string().required(),
+  transectionHash: Joi.string().required(),
+});
