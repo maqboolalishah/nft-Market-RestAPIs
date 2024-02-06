@@ -8,3 +8,11 @@ module.exports.mintValidation = Joi.object({
   token: Joi.string().required(),
   transectionHash: Joi.string().required(),
 });
+module.exports.auctionValidation = Joi.object({
+  tokenId: Joi.string().required(),
+  heighestBid: Joi.number().required(),
+  owner: Joi.string().required(),
+  startingPrice: Joi.number().required(),
+  endTime: Joi.string().required(),
+  heighestBidder: Joi.string().required(),
+});
