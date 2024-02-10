@@ -23,15 +23,34 @@ class nft {
       endTime='${endTime}'`
     );
   }
-  addOnFixedPrice({ tokenId, owner, price, transectionHash }) {
+
+  addOnFixedPrice({ tokenId, owner, price, transectionHash, orderId }) {
     return db.execute(
       `INSERT INTO fixedPrice SET 
       tokenId=${tokenId}, 
+      orderId=${orderId}, 
       owner='${owner}', 
       price=${price}, 
-      transectionHash='${transectionHash}'`
+      transactionHash='${transectionHash}'`
     );
   }
+  fixedPriceNftTransfer({ transferFrom, transferTo, price, orderId, tokenId }) {
+    return db.execute(
+      `INSERT INTO transfer SET transferFrom="${transferFrom}", transferTo="${transferTo}", referenceId=${orderId}, tokenId=${tokenId}, transferType="directTransfer", price=${price}`
+    );
+  }
+  upateFixedPriceForTrasfer(tokenId, orderId) {
+    return db.execute(
+      `UPDATE fixedPrice SET  status=0 WHERE tokenId=${tokenId} AND orderId=${orderId}`
+    );
+  }
+
+  upateNftForFixedPriceTrasfer(tokenId, transferTo) {
+    return db.execute(
+      `UPDATE nftt SET ownerWalletAddress ="${transferTo}",isFixed=0 , isSale=0 WHERE tokenId=${tokenId}`
+    );
+  }
+
   updatenft(tokenId) {
     return db.execute(
       `UPDATE nftt SET isAuction=1, isSale=1 WHERE tokenId=${tokenId}`

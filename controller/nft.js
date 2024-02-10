@@ -5,6 +5,8 @@ const {
   auctionValidation,
   biddingValidation,
   auctionTransferValidation,
+  directTransferValidation,
+  fixedPriceValidation,
 } = require("../joiSchemas/schemas");
 
 module.exports.nftMint = async (req, res, next) => {
@@ -52,7 +54,27 @@ module.exports.addOnFixedPrice = async (req, res, next) => {
     if (error) return res.status(400).json({ error: error.details[0].message });
 
     await nft.addOnFixedPrice(value);
-    return res.status(200).json({ message: `Added on Auction` });
+    return res
+      .status(201)
+      .json({ message: `Nft Listed for Sale on Fixed Price` });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports.fixedPriceNftTransfer = async (req, res, next) => {
+  const payload = req.body;
+
+  try {
+    const { error, value } = directTransferValidation.validate(payload);
+
+    if (error) return res.status(400).json({ error: error.details[0].message });
+    await nft.fixedPriceNftTransfer(value);
+    await nft.upateFixedPriceForTrasfer(value.tokenId, value.orderId);
+    await nft.upateNftForFixedPriceTrasfer(value.tokenId, value.transferTo);
+    return res
+      .status(200)
+      .json({ message: `Successfully transfered token: ${value.tokenId}` });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

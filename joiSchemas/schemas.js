@@ -22,6 +22,7 @@ module.exports.fixedPriceValidation = Joi.object({
   price: Joi.number().required(),
   owner: Joi.string().required(),
   transectionHash: Joi.string().required(),
+  orderId: Joi.number().required(),
 });
 module.exports.biddingValidation = Joi.object({
   auctionId: Joi.number().required(),
@@ -34,5 +35,13 @@ module.exports.auctionTransferValidation = Joi.object({
   transferTo: Joi.string().required(),
   price: Joi.number().required(),
   auctionId: Joi.number().required(),
+  tokenId: Joi.number().required(),
+});
+
+module.exports.directTransferValidation = Joi.object({
+  transferFrom: Joi.string().required(),
+  transferTo: Joi.string().required(),
+  price: Joi.number().required(),
+  orderId: Joi.number().required(),
   tokenId: Joi.number().required(),
 });

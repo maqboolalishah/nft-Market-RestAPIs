@@ -6,6 +6,8 @@ const {
   addAuction,
   bidding,
   auctionTransfer,
+  addOnFixedPrice,
+  fixedPriceNftTransfer,
 } = require("../controller/nft");
 const imageUpload = require("../services/imageUpload");
 const router = new express.Router();
@@ -18,5 +20,7 @@ router.post("/nftMint", imageUpload, nftMint);
 router.post("/addAuction", addAuction);
 router.post("/bidding", bidding);
 router.post("/auctionTransfer", auctionTransfer);
+router.post("/addOnFixedPrice", addOnFixedPrice);
+router.post("/fixedPriceNftTransfer", fixedPriceNftTransfer);
 
 module.exports = router;
