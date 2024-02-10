@@ -28,3 +28,11 @@ module.exports.biddingValidation = Joi.object({
   bidderAddress: Joi.string().required(),
   price: Joi.number().required(),
 });
+
+module.exports.auctionTransferValidation = Joi.object({
+  transferFrom: Joi.string().required(),
+  transferTo: Joi.string().required(),
+  price: Joi.number().required(),
+  auctionId: Joi.number().required(),
+  tokenId: Joi.number().required(),
+});

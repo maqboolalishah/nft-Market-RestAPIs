@@ -47,5 +47,23 @@ class nft {
       `UPDATE auction SET heighestBidder="${bidderAddress}",heighestBid=${price}`
     );
   }
+
+  auctionTransfer({ transferFrom, transferTo, price, auctionId, tokenId }) {
+    return db.execute(
+      `INSERT INTO transfer SET transferFrom="${transferFrom}", transferTo="${transferTo}", referenceId=${auctionId}, tokenId=${tokenId}, transferType="auctionWon", price=${price}`
+    );
+  }
+
+  upateNftForAuctionTrasfer(tokenId, transferTo) {
+    return db.execute(
+      `UPDATE nftt SET ownerWalletAddress ="${transferTo}",isAuction=0 , isSale=0 WHERE tokenId=${tokenId}`
+    );
+  }
+
+  upateAuctionForTrasfer(tokenId, auctionId) {
+    return db.execute(
+      `UPDATE auction SET  sale=0 WHERE tokenId=${tokenId} AND auctionId=${auctionId}`
+    );
+  }
 }
 module.exports = nft;

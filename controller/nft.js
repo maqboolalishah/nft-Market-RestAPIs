@@ -4,6 +4,7 @@ const {
   mintValidation,
   auctionValidation,
   biddingValidation,
+  auctionTransferValidation,
 } = require("../joiSchemas/schemas");
 
 module.exports.nftMint = async (req, res, next) => {
@@ -68,6 +69,24 @@ module.exports.bidding = async (req, res, next) => {
     const { bidderAddress, price } = value;
     await nft.updateAuction(bidderAddress, price);
     return res.status(200).json({ message: `Successfully Bidded` });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports.auctionTransfer = async (req, res, next) => {
+  const payload = req.body;
+
+  try {
+    const { error, value } = auctionTransferValidation.validate(payload);
+
+    if (error) return res.status(400).json({ error: error.details[0].message });
+    await nft.auctionTransfer(value);
+    await nft.upateAuctionForTrasfer(value.tokenId, value.auctionId);
+    await nft.upateNftForAuctionTrasfer(value.tokenId, value.transferTo);
+    return res
+      .status(200)
+      .json({ message: `Successfully transfered token: ${value.tokenId}` });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
