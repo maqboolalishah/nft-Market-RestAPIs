@@ -10,6 +10,7 @@ module.exports.mintValidation = Joi.object({
 });
 module.exports.auctionValidation = Joi.object({
   tokenId: Joi.number().required(),
+  auctionId: Joi.number().required(),
   heighestBid: Joi.number().required(),
   owner: Joi.string().required(),
   startingPrice: Joi.number().required(),
@@ -21,4 +22,9 @@ module.exports.fixedPriceValidation = Joi.object({
   price: Joi.number().required(),
   owner: Joi.string().required(),
   transectionHash: Joi.string().required(),
+});
+module.exports.biddingValidation = Joi.object({
+  auctionId: Joi.number().required(),
+  bidderAddress: Joi.string().required(),
+  price: Joi.number().required(),
 });

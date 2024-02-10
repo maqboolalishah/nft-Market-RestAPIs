@@ -13,10 +13,11 @@ class nft {
       `INSERT INTO ${this.table} SET title="${title}" , description="${description}" , ownerWalletAddress="${ownerWalletAddress}" , creatorWalletAddress="${ownerWalletAddress}",tokenId=${tokenId}, transectionHash="${transectionHash}", image="${image}"`
     );
   }
-  addAuction({ tokenId, owner, startingPrice, endTime }) {
+  addAuction({ tokenId, auctionId, owner, startingPrice, endTime }) {
     return db.execute(
       `INSERT INTO auction SET 
-      tokenId='${tokenId}', 
+      tokenId=${tokenId},
+      auctionId= ${auctionId}, 
       owner='${owner}', 
       startingPrice=${startingPrice}, 
       endTime='${endTime}'`
@@ -31,9 +32,19 @@ class nft {
       transectionHash='${transectionHash}'`
     );
   }
-  updateIsAuction(tokenId) {
+  updatenft(tokenId) {
     return db.execute(
-      `UPDATE nftt SET isAuction=1, isSale=1 WHERE token=${tokenId}`
+      `UPDATE nftt SET isAuction=1, isSale=1 WHERE tokenId=${tokenId}`
+    );
+  }
+  bidding({ auctionId, bidderAddress, price }) {
+    return db.execute(
+      `INSERT INTO bidding SET auctionId=${auctionId}, bidderAddress="${bidderAddress}", price=${price}`
+    );
+  }
+  updateAuction(bidderAddress, price) {
+    return db.execute(
+      `UPDATE auction SET heighestBidder="${bidderAddress}",heighestBid=${price}`
     );
   }
 }
