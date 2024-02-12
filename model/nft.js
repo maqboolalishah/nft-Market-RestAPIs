@@ -84,5 +84,35 @@ class nft {
       `UPDATE auction SET  sale=0 WHERE tokenId=${tokenId} AND auctionId=${auctionId}`
     );
   }
+
+  fetchAllNfts() {
+    return db.execute(`SELECT n.*, cr.username as creatorUsername, cr.walletAddress as creatorWallet,cr.Image as creatorImage,ow.username as ownerUsername, ow.walletAddress as ownerWallet,ow.Image as ownerImage,bd.username as bidderUsername, bd.walletAddress as bidderWallet, bd.Image as bidderImage,ac.startingPrice, ac.auctionId,ac.heighestBid as highestBid, fp.orderId, fp.price as fixedPirce
+    FROM nftt n
+    LEFT JOIN fixedprice fp
+   ON
+   (fp.tokenId = n.tokenId
+     AND
+     fp.status = 1)
+      LEFT JOIN auction ac
+     ON
+     (
+       ac.tokenId = n.tokenId
+         AND
+         ac.sale =1
+     )
+   JOIN creatorr cr 
+   ON
+   (cr.walletAddress = n.creatorWalletAddress)
+   JOIN creatorr ow 
+   ON
+   (ow.walletAddress = n.ownerWalletAddress)
+   LEFT JOIN creatorr bd
+   ON
+   (ac.heighestBidder = bd.walletAddress)
+   
+     WHERE 
+     n.isSale = 1
+    `);
+  }
 }
 module.exports = nft;
