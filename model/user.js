@@ -4,7 +4,14 @@ class User {
   constructor() {
     this.table = "creatorr";
   }
-
+  checkEmail(email) {
+    return db.execute(`SELECT * FROM ${this.table} WHERE  email = "${email}" `);
+  }
+  checkUsername(username) {
+    return db.execute(
+      `SELECT * FROM ${this.table} WHERE  username = "${username}" `
+    );
+  }
   signUp({ walletAddress, username, hashPassword, email, verificationToken }) {
     return db.execute(
       `INSERT INTO ${this.table} SET walletAddress = "${walletAddress}", username ="${username}", password = "${hashPassword}", email="${email}" , verificationToken='${verificationToken}'`

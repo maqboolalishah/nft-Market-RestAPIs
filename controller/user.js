@@ -11,6 +11,7 @@ const user = new User();
 module.exports.signUp = async (req, res) => {
   try {
     const { walletAddress, username, password, email } = req.body;
+
     if (!walletAddress || !username || !password || !email)
       return res.status(400).json("Bad request");
 
@@ -19,7 +20,6 @@ module.exports.signUp = async (req, res) => {
 
     // Generate verification token
     const verificationToken = uuidv4();
-    console.log(verificationToken);
 
     const data = {
       walletAddress,
@@ -29,8 +29,15 @@ module.exports.signUp = async (req, res) => {
       verificationToken,
     };
 
-    console.log(data);
+    // console.log(data);
+    // Check email
+    const [ifExist] = await user.checkEmail(data.email);
+    if (ifExist.length > 0) return res.status(409).json("Email already Exist");
 
+    // Check username
+    const [ifExistUsername] = await user.checkUsername(data.username);
+    if (ifExistUsername.length > 0)
+      return res.status(409).json("Username already Exist");
     // Save the user
     const registration = await user.signUp(data);
 
