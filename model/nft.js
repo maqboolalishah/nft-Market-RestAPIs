@@ -114,5 +114,31 @@ class nft {
      n.isSale = 1
     `);
   }
+
+  fetchSingleNft(tokenId) {
+    return db.execute(`SELECT n.*, cr.username as creatorUsername, cr.walletAddress as creatorWallet,cr.Image as creatorImage,ow.username as ownerUsername, ow.walletAddress as ownerWallet,ow.Image as ownerImage,bd.username as bidderUsername, bd.walletAddress as bidderWallet, bd.Image as bidderImage,ac.startingPrice, ac.auctionId,ac.heighestBid as highestBid, fp.orderId, fp.price as fixedPirce
+    FROM nftt n
+    LEFT JOIN fixedprice fp
+   ON
+   (fp.tokenId = n.tokenId)
+      LEFT JOIN auction ac
+     ON
+     (
+       ac.tokenId = n.tokenId
+     )
+   JOIN creatorr cr 
+   ON
+   (cr.walletAddress = n.creatorWalletAddress)
+   JOIN creatorr ow 
+   ON
+   (ow.walletAddress = n.ownerWalletAddress)
+   LEFT JOIN creatorr bd
+   ON
+   (ac.heighestBidder = bd.walletAddress)
+   
+     WHERE 
+     n.isSale = 1 AND n.tokenId=${tokenId}
+    `);
+  }
 }
 module.exports = nft;

@@ -122,3 +122,15 @@ module.exports.fetchAllNfts = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+module.exports.fetchSingleNft = async (req, res, next) => {
+  try {
+    const { tokenId } = req.params;
+    console.log(tokenId);
+    const [data] = await nft.fetchSingleNft(tokenId);
+    console.log(data);
+    return res.status(200).json(data);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

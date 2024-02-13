@@ -9,6 +9,7 @@ const {
   addOnFixedPrice,
   fixedPriceNftTransfer,
   fetchAllNfts,
+  fetchSingleNft,
 } = require("../controller/nft");
 const imageUpload = require("../services/imageUpload");
 const router = new express.Router();
@@ -24,5 +25,6 @@ router.post("/auctionTransfer", auctionTransfer);
 router.post("/addOnFixedPrice", addOnFixedPrice);
 router.post("/fixedPriceNftTransfer", fixedPriceNftTransfer);
 router.get("/fetchAllNfts", fetchAllNfts);
+router.get("/fetchSingleNft/:tokenId", fetchSingleNft);
 
 module.exports = router;
