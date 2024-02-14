@@ -43,7 +43,10 @@ module.exports.signUp = async (req, res) => {
 
     if (registration) {
       const message = `
-      Please click on the following link to verify your email: http://localhost:8000/api/verifyUser/${verificationToken}
+      <p>Please click the button below to verify your email:</p>
+      <form action="http://localhost:8000/api/verifyUser/${verificationToken}">
+          <button type="submit" style="border-radius:50px; background-color:blue; color:white;">Verify</button>
+      </form>
     `;
       await sendMail({
         email: data.email,
