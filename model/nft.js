@@ -1,8 +1,8 @@
-const db = require("../config/database");
+const db = require('../config/database');
 
 class nft {
   constructor() {
-    this.table = "nftt";
+    this.table = 'nftt';
   }
 
   nftMint(
@@ -139,6 +139,22 @@ class nft {
      WHERE 
      n.isSale = 1 AND n.tokenId=${tokenId}
     `);
+  }
+
+  fetchNftCollection(walletAddress) {
+    return db.execute(`
+    SELECT * FROM nftt WHERE creatorWalletAddress != '${walletAddress}'
+    AND
+    ownerWalletAddress = '${walletAddress}'
+
+
+      `);
+  }
+  fetchNftCreatedAts(walletAddress) {
+    return db.execute(`
+    SELECT * FROM nftt WHERE creatorWalletAddress = '${walletAddress}'
+
+      `);
   }
 }
 module.exports = nft;

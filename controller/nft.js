@@ -1,4 +1,4 @@
-const Nft = require("../model/nft");
+const Nft = require('../model/nft');
 const nft = new Nft();
 const {
   mintValidation,
@@ -7,7 +7,7 @@ const {
   auctionTransferValidation,
   directTransferValidation,
   fixedPriceValidation,
-} = require("../joiSchemas/schemas");
+} = require('../joiSchemas/schemas');
 
 module.exports.nftMint = async (req, res, next) => {
   const payload = req.body;
@@ -130,6 +130,21 @@ module.exports.fetchSingleNft = async (req, res, next) => {
     const [data] = await nft.fetchSingleNft(tokenId);
     console.log(data);
     return res.status(200).json(data);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports.fetchNftCollection = async (req, res, next) => {
+  try {
+    const { walletAddress } = req.params;
+
+    const [collectedArts] = await nft.fetchNftCollection(walletAddress);
+    const [createdArts] = await nft.fetchNftCreatedAts(walletAddress);
+
+    return res
+      .status(200)
+      .json({ createdArts: createdArts, collectedArts: collectedArts });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
